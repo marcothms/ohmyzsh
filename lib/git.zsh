@@ -46,7 +46,12 @@ function _omz_git_prompt_info() {
     && upstream=" -> ${upstream}"
   fi
 
-  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref//\%/%%}${upstream//\%/%%}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  local is_nix
+  if $(echo $PATH | grep "/nix/store" > /dev/null 2>&1); then
+    is_nix="nix@"
+  fi
+
+  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${is_nix}${ref//\%/%%}${upstream//\%/%%}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
 # Match an extended regular expression against a subject, forcing the C locale
